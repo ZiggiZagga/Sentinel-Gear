@@ -22,12 +22,9 @@ public class GatewayApp {
 		SpringApplication.run(GatewayApp.class, args);
 	}
 	@GetMapping(path="/")
-	public  Mono<String> hello(@AuthenticationPrincipal Jwt principal) {	
-		String user = "UNKNOWN";
-		if(principal != null) {
-			user = principal.getClaimAsString("preferred_username");
-		}
-        return Mono.just("Hello "+user);
+	public  Mono<String> hello() {	
+		String user = "UNKNOWN";		
+        	return Mono.just("Hello "+user);
 	}
 
 }
