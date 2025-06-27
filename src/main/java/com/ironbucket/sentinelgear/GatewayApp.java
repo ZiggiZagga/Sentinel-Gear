@@ -15,7 +15,6 @@ import reactor.core.publisher.Mono;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@Controller
 @RestController
 @Configuration
 public class GatewayApp {
