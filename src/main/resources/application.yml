@@ -1,3 +1,48 @@
+server:
+  port: 7085
+
 spring:
   application:
     name: sentinel-gear
+
+  cloud:
+    gateway:
+
+      default-filters:
+        - SaveSession
+        - TokenRelay
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter:
+              replenishRate: 15 # Amount of Tokens per Second
+              burstCapacity: 30 # Capacity of Token
+              requestedTokens: 1 # 1 Token per Request
+      server:
+        webflux:
+          globalcors:
+            add-to-simple-url-handler-mapping: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          gateway-service:
+            client-id: dev-client
+            client-secret: dev-secret
+            scope:
+              - openid
+            authorization-grant-type: authorization_code
+        provider:
+          gateway-service:
+            issuer-uri: ${IDP_PROVIDER_PROTOCOL}://${IDP_PROVIDER_HOST}/realms/${IDP_PROVIDER_REALM}
+            authorization-uri: ${IDP_PROVIDER_PROTOCOL}://${IDP_PROVIDER_HOST}/realms/${IDP_PROVIDER_REALM}/protocol/openid-connect/auth
+            token-uri: ${IDP_PROVIDER_PROTOCOL}://${IDP_PROVIDER_HOST}/realms/${IDP_PROVIDER_REALM}/protocol/openid-connect/token
+            user-info-uri: ${IDP_PROVIDER_PROTOCOL}://${IDP_PROVIDER_HOST}/realms/${IDP_PROVIDER_REALM}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${IDP_PROVIDER_PROTOCOL}://${IDP_PROVIDER_HOST}/realms/${IDP_PROVIDER_REALM}/protocol/openid-connect/certs
+
+
+logging:
+  level:
+    org.springframework.graphql: INFO
+    graphql: INFO
+
