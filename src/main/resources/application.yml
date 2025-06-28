@@ -39,6 +39,9 @@ spring:
             token-uri: ${IDP_PROVIDER_PROTOCOL}://${IDP_PROVIDER_HOST}/realms/${IDP_PROVIDER_REALM}/protocol/openid-connect/token
             user-info-uri: ${IDP_PROVIDER_PROTOCOL}://${IDP_PROVIDER_HOST}/realms/${IDP_PROVIDER_REALM}/protocol/openid-connect/userinfo
             jwk-set-uri: ${IDP_PROVIDER_PROTOCOL}://${IDP_PROVIDER_HOST}/realms/${IDP_PROVIDER_REALM}/protocol/openid-connect/certs
-
-
+  docker:
+    compose:
+      file:
+        - ${DOCKER_FILES_HOMEDIR}/docker-compose-steel-hammer.yml
+      enabled: true
 
