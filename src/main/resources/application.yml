@@ -1,27 +1,43 @@
+logging:
+  level:
+    org:
+      '[springframework]': INFO
+      springframework:
+        graphql: INFO
+    graphql: INFO 
+
 server:
   port: 7085
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+    region: ${EUREKA_REGION:dev-region-1}
 
 spring:
   application:
     name: sentinel-gear
 
+
+ 
   cloud:
     gateway:
-
-      default-filters:
-        - SaveSession
-        - TokenRelay
-        - name: RequestRateLimiter
-          args:
-            redis-rate-limiter:
-              replenishRate: 15 # Amount of Tokens per Second
-              burstCapacity: 30 # Capacity of Token
-              requestedTokens: 1 # 1 Token per Request
       server:
         webflux:
+          default-filters:
+            - TokenRelay
+          routes: 
+            - id: route-hub
+              uri: lb://claimspindel
+              predicates:
+                - Path=/**
           globalcors:
             add-to-simple-url-handler-mapping: true
-
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
   security:
     oauth2:
       client:
@@ -43,5 +59,4 @@ spring:
     compose:
       file:
         - ${DOCKER_FILES_HOMEDIR}/docker-compose-steel-hammer.yml
-      enabled: true
-
+      enabled: false
