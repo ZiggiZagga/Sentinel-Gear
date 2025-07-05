@@ -1,10 +1,9 @@
 logging:
   level:
+    com:
+      ironbucket: DEBUG
     org:
       '[springframework]': INFO
-      springframework:
-        graphql: INFO
-    graphql: INFO 
 
 server:
   port: 7085
@@ -15,23 +14,29 @@ eureka:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
     region: ${EUREKA_REGION:dev-region-1}
 
+ironbucket:
+  security:
+    secret: ${IRON_BUCKET_SECRET_KEY:my-super-secret-key}
+
 spring:
   application:
     name: sentinel-gear
-
-
  
   cloud:
     gateway:
       server:
         webflux:
           default-filters:
+            - RemoveRequestHeader=Cookie
+            - RemoveRequestHeader=Authorization
             - TokenRelay
+            - SentinelGearHeader
           routes: 
             - id: route-hub
               uri: lb://claimspindel
               predicates:
-                - Path=/**
+                - Path=/storage/{backend}/{container}/**
+
           globalcors:
             add-to-simple-url-handler-mapping: true
           discovery:
@@ -43,8 +48,8 @@ spring:
       client:
         registration:
           gateway-service:
-            client-id: dev-client
-            client-secret: dev-secret
+            client-id: sentinel-gear-app
+            client-secret: sentinel-gear-app-secret
             scope:
               - openid
             authorization-grant-type: authorization_code
