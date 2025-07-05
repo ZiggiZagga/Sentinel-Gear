@@ -13,18 +13,27 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>sentinel-gear</name>
 	<description>Spring Cloud Gateway–based service hardened for zero-trust environments. Acting as the secure entrypoint to the IronBucket ecosystem, it enforces identity-aware policies, integrates with GitOps workflows, and transforms your object access layer into a governed, auditable flow.</description>
-	<url/>
+	<url>https://github.com/ZiggiZagga/Sentinel-Gear</url>
 	<licenses>
-		<license/>
+  		<license>
+    			<name>Apache License, Version 2.0</name>
+    			<url>https://www.apache.org/licenses/LICENSE-2.0</url>
+    			<distribution>repo</distribution>
+  		</license>
 	</licenses>
 	<developers>
-		<developer/>
+  		<developer>
+    			<id>ziggizagga</id>
+    			<name>Your Name</name>
+    			<organization>Chainilo</organization>
+    			<organizationUrl>http://www.chainilo.com/</organizationUrl>
+  		</developer>
 	</developers>
 	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
+  		<url>https://github.com/ZiggiZagga/Sentinel-Gear</url>
+  		<connection>scm:git:git://github.com/ZiggiZagga/Sentinel-Gear.git</connection>
+  		<developerConnection>scm:git:ssh://git@github.com:ZiggiZagga/Sentinel-Gear.git</developerConnection>
+  		<tag>main</tag>
 	</scm>
 	<properties>
 		<java.version>21</java.version>
