@@ -6,5 +6,6 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 
 @Configuration
 @EnableWebFluxSecurity
-class SecurityConfig {
+public class SecurityConfig {
+	// Hier können Security-Filter, Authentifizierung und Autorisierung konfiguriert werden
 }

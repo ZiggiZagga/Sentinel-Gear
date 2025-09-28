@@ -1,50 +1,38 @@
-logging:
-  level:
-    com:
-      ironbucket: DEBUG
-    org:
-      '[springframework]': INFO
-
-server:
-  port: 7085
-
-eureka:
-  client:
-    service-url:
-      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
-    region: ${EUREKA_REGION:dev-region-1}
-
 ironbucket:
-  security:
-    secret: ${IRON_BUCKET_SECRET_KEY:my-super-secret-key}
-
 spring:
+server:
+  port: 8080
+
+    oauth2:
   application:
-    name: sentinel-gear
- 
+    name: edge-gateway
   cloud:
     gateway:
-      server:
-        webflux:
-          default-filters:
-            - RemoveRequestHeader=Cookie
-            - RemoveRequestHeader=Authorization
-            - TokenRelay
-            - SentinelGearHeader
-          routes: 
-            - id: route-hub
-              uri: lb://claimspindel
-              predicates:
-                - Path=/storage/{backend}/{container}/**
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: world-route
+          uri: lb://world-service
+          predicates:
+            - Path=/world/
+        - id: greeting-route
+          uri: lb://greeting-service
+          predicates:
+            - Path=/greet/
+        - id: graphql-route
+          uri: lb://graphql-service
+          predicates:
+            - Path=/graphql/
+            - Method=POST
+          filters:
+            - RewritePath=/graphql/(?<remaining>.*), /${remaining}
 
-          globalcors:
-            add-to-simple-url-handler-mapping: true
-          discovery:
-            locator:
-              enabled: true
-              lower-case-service-id: true
-  security:
-    oauth2:
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,env,refresh,bus-refresh
       client:
         registration:
           gateway-service:
@@ -53,6 +41,12 @@ spring:
             scope:
               - openid
             authorization-grant-type: authorization_code
+          test-client:
+            client-id: test-client-id
+            client-secret: test-client-secret
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/test-client
+            scope: openid,profile,email
         provider:
           gateway-service:
             issuer-uri: ${IDP_PROVIDER_PROTOCOL}://${IDP_PROVIDER_HOST}/realms/${IDP_PROVIDER_REALM}
@@ -60,6 +54,8 @@ spring:
             token-uri: ${IDP_PROVIDER_PROTOCOL}://${IDP_PROVIDER_HOST}/realms/${IDP_PROVIDER_REALM}/protocol/openid-connect/token
             user-info-uri: ${IDP_PROVIDER_PROTOCOL}://${IDP_PROVIDER_HOST}/realms/${IDP_PROVIDER_REALM}/protocol/openid-connect/userinfo
             jwk-set-uri: ${IDP_PROVIDER_PROTOCOL}://${IDP_PROVIDER_HOST}/realms/${IDP_PROVIDER_REALM}/protocol/openid-connect/certs
+          test-client:
+            issuer-uri: http://localhost:9999/realms/test
   docker:
     compose:
       file:
