@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.3</version>
+	<version>3.5.6</version>
 		<relativePath/>
 		<!--  lookup parent from repository  -->
 	</parent>
@@ -35,51 +35,55 @@
   		<tag>main</tag>
 	</scm>
 	<properties>
-		<java.version>21</java.version>
+	<java.version>24</java.version>
 		<spring-cloud.version>2025.0.0</spring-cloud.version>
 	</properties>
 	
 	<dependencies>
-	
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-      			<groupId>org.springframework.boot</groupId>
-      			<artifactId>spring-boot-starter-oauth2-client</artifactId>     		
-    	</dependency>
-    	<dependency>
-		  <groupId>org.springframework.security</groupId>
-		  <artifactId>spring-security-oauth2-jose</artifactId>
-		</dependency>
-    	<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>    	
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
+	<!-- Custom library for storage and token logic -->
+		  
+		   <dependency>
+			   <groupId>com.ironbucket</groupId>
+			   <artifactId>pactumscroll</artifactId>
+			   <version>0.0.1-SNAPSHOT</version>
+			   <scope>compile</scope>
+		   </dependency>
+		 
+		<!-- Spring Cloud Gateway for WebFlux -->
+	       <dependency>
+		       <groupId>org.springframework.cloud</groupId>
+		       <artifactId>spring-cloud-starter-gateway</artifactId>
+	       </dependency>
+		<!-- Spring Security for WebFlux -->
+	       <dependency>
+		       <groupId>org.springframework.boot</groupId>
+		       <artifactId>spring-boot-starter-security</artifactId>
+	       </dependency>
+	       <dependency>
+		       <groupId>org.springframework.boot</groupId>
+		       <artifactId>spring-boot-starter-oauth2-client</artifactId>
+	       </dependency>
+	       <dependency>
+		       <groupId>org.springframework.boot</groupId>
+		       <artifactId>spring-boot-devtools</artifactId>
+		       <scope>runtime</scope>
+		       <optional>true</optional>
+	       </dependency>
 		
-		<dependency>	
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-docker-compose</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
+	       <dependency>
+		       <groupId>org.springframework.boot</groupId>
+		       <artifactId>spring-boot-docker-compose</artifactId>
+		       <scope>runtime</scope>
+		       <optional>true</optional>
+	       </dependency>
 		
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
+	       <!-- Lombok for code generation (provided scope) -->
+	       <dependency>
+		       <groupId>org.projectlombok</groupId>
+		       <artifactId>lombok</artifactId>
+		       <optional>true</optional>
+		       <scope>provided</scope>
+	       </dependency>
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -95,43 +99,43 @@
 		
 	</dependencies>
 		
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	<build>
-		<plugins>
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-compiler-plugin</artifactId>
-			<configuration>
-				<annotationProcessorPaths>
-					<path>
-						<groupId>org.projectlombok</groupId>
-						<artifactId>lombok</artifactId>
-					</path>
-				</annotationProcessorPaths>
-			</configuration>
-		</plugin>
-		<plugin>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-maven-plugin</artifactId>
-			<configuration>
-			<excludes>
-			<exclude>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			</exclude>
-			</excludes>
-			</configuration>
-			</plugin>
-		</plugins>
-	</build>
+       <dependencyManagement>
+	       <dependencies>
+		       <dependency>
+			       <groupId>org.springframework.cloud</groupId>
+			       <artifactId>spring-cloud-dependencies</artifactId>
+			       <version>${spring-cloud.version}</version>
+			       <type>pom</type>
+			       <scope>import</scope>
+		       </dependency>
+	       </dependencies>
+       </dependencyManagement>
+       <build>
+	       <plugins>
+		       <plugin>
+			       <groupId>org.apache.maven.plugins</groupId>
+			       <artifactId>maven-compiler-plugin</artifactId>
+			       <configuration>
+				       <annotationProcessorPaths>
+					       <path>
+						       <groupId>org.projectlombok</groupId>
+						       <artifactId>lombok</artifactId>
+					       </path>
+				       </annotationProcessorPaths>
+			       </configuration>
+		       </plugin>
+		       <plugin>
+			       <groupId>org.springframework.boot</groupId>
+			       <artifactId>spring-boot-maven-plugin</artifactId>
+			       <configuration>
+				       <excludes>
+					       <exclude>
+						       <groupId>org.projectlombok</groupId>
+						       <artifactId>lombok</artifactId>
+					       </exclude>
+				       </excludes>
+			       </configuration>
+		       </plugin>
+	       </plugins>
+       </build>
 </project>
