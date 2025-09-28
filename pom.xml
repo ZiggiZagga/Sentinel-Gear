@@ -41,12 +41,14 @@
 	
 	<dependencies>
 	<!-- Custom library for storage and token logic -->
-		<dependency>
-			<groupId>com.ironbucket</groupId>
-			<artifactId>pactumscroll</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
+		  
+		   <dependency>
+			   <groupId>com.ironbucket</groupId>
+			   <artifactId>pactumscroll</artifactId>
+			   <version>0.0.1-SNAPSHOT</version>
+			   <scope>compile</scope>
+		   </dependency>
+		 
 		<!-- Spring Cloud Gateway for WebFlux -->
 	       <dependency>
 		       <groupId>org.springframework.cloud</groupId>
